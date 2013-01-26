@@ -1,6 +1,8 @@
-/*global define */
+/*global $ define */
 
 define(['controls'], function(controls) {
+
+  var transform = $.fx.cssPrefix + 'transform';
 
   var Player = function(el) {
     this.el = el;
@@ -17,8 +19,8 @@ define(['controls'], function(controls) {
       this.speed *= -1;
     }
 
-    // Update UI
-    this.el.css('-webkit-transform', 'translate(' + this.pos.x + 'px,' + this.pos.y + 'px)');
+    // Update UI.
+    this.el.css(transform, 'translate(' + this.pos.x + 'px,' + this.pos.y + 'px)');
   };
 
   return Player;
