@@ -1,9 +1,10 @@
 /*global $ define */
 
-define(function(controls) {
+define(function() {
 
   var Platform = function(rect) {
     this.rect = rect;
+    this.rect.right = rect.x + rect.width;
 
     this.el = $('<div class="platform">');
     this.el.css({

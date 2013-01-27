@@ -8,9 +8,9 @@ define(['controls'], function(controls) {
 
   var transform = $.fx.cssPrefix + 'transform';
 
-  var Player = function(el) {
+  var Player = function(el, game) {
     this.el = el;
-    this.jumping = false;
+    this.game = game;
     this.pos = { x: 0, y: 0 };
     this.vel = { x: 0, y: 0 };
   };
@@ -27,29 +27,40 @@ define(['controls'], function(controls) {
     }
 
     // Jump
-    if (controls.keys.space && !this.jumping) {
-      this.jumping = true;
+    if (controls.keys.space && this.vel.y === 0) {
       this.vel.y = -JUMP_VELOCITY;
     }
 
+    // Gravity
+    this.vel.y += GRAVITY * delta;
+
     // Update state
+    var oldY = this.pos.y;
     this.pos.x += this.vel.x * delta;
     this.pos.y += this.vel.y * delta;
 
-    // Collision with the ground.
-    if (this.pos.y > 0) {
-      this.vel.y = 0;
-      this.pos.y = 0;
-      this.jumping = false;
-    }
-
-    // Gravity
-    if (this.pos.y !== 0) {
-      this.vel.y += GRAVITY * delta;
-    }
+    // Check collisions
+    this.checkPlatforms(oldY);
 
     // Update UI.
     this.el.css(transform, 'translate(' + this.pos.x + 'px,' + this.pos.y + 'px)');
+  };
+
+  Player.prototype.checkPlatforms = function(oldY) {
+    var platforms = this.game.platforms;
+    for (var i = 0, p; p = platforms[i]; i++) {
+      // Are we crossing Y.
+      if (p.rect.y >= oldY && p.rect.y < this.pos.y) {
+
+        // Is our X within platform width
+        if (this.pos.x > p.rect.x && this.pos.x < p.rect.right) {
+
+          // Collision. Let's stop gravity.
+          this.pos.y = p.rect.y;
+          this.vel.y = 0;
+        }
+      }
+    }
   };
 
   return Player;

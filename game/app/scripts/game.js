@@ -10,7 +10,7 @@ define(['player', 'platform'], function(Player, Platform) {
     this.el = el;
     this.platformsEl = el.find('.platforms');
 
-    this.player = new Player(this.el.find('.player'));
+    this.player = new Player(this.el.find('.player'), this);
     
     // Cache a bound onFrame since we need it each frame.
     this.onFrame = this.onFrame.bind(this);
@@ -26,7 +26,7 @@ define(['player', 'platform'], function(Player, Platform) {
     this.platforms = [];
     this.createPlatforms();
 
-    // TODO: Reset player.
+    this.player.pos = {x: 700, y: 418};
   };
 
   Game.prototype.createPlatforms = function() {
