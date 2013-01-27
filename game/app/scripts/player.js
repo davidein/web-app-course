@@ -44,6 +44,9 @@ define(['controls'], function(controls) {
 
     // Update UI.
     this.el.css(transform, 'translate(' + this.pos.x + 'px,' + this.pos.y + 'px)');
+
+    this.el.toggleClass('walking', this.vel.x !== 0);
+    this.el.toggleClass('jumping', this.vel.y < 0);
   };
 
   Player.prototype.checkPlatforms = function(oldY) {

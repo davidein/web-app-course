@@ -18,5 +18,6 @@
     "unused": true,
     "strict": false,
     "trailing": true,
-    "smarttabs": true
+    "smarttabs": true,
+    "boss": false
 }
