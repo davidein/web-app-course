@@ -16,6 +16,12 @@ html {
   margin-top: -240px;
 }
 
+.platform {
+  background-color: #bada55;
+  position: absolute;
+  @include border-radius(5px);
+}
+
 .player {
   height: 100px;
   left: 700px;
