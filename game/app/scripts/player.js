@@ -3,6 +3,7 @@
 define(['controls'], function(controls) {
 
   var PLAYER_SPEED = 300;
+  var ROTATE_FACTOR = 0.05;
   var JUMP_VELOCITY = 1000;
   var GRAVITY = 2500;
   var EDGE_OF_LIFE = 860; // DUM DUM DUM!
@@ -12,6 +13,7 @@ define(['controls'], function(controls) {
 
   var Player = function(el, game) {
     this.el = el;
+    this.segwayEl = el.find('.segway');
     this.game = game;
     this.pos = { x: 0, y: 0 };
     this.vel = { x: 0, y: 0 };
@@ -46,7 +48,9 @@ define(['controls'], function(controls) {
     this.checkGameover();
 
     // Update UI.
+    var rotate = this.vel.x * ROTATE_FACTOR;
     this.el.css(transform, 'translate(' + this.pos.x + 'px,' + this.pos.y + 'px)');
+    this.segwayEl.css(transform, 'rotate(' + rotate + 'deg)');
   };
 
   Player.prototype.checkPlatforms = function(oldY) {
