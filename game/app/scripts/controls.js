@@ -15,7 +15,10 @@ define([], function() {
    * @constructor
    */
   var Controls = function() {
-    this.spacePressed = false;
+    this.inputVec = { x: 0, y: 0 };
+    this.isJumping = false;
+
+    // Key states
     this.keys = {};
 
     $(window)
@@ -33,6 +36,18 @@ define([], function() {
     if (e.keyCode in KEYS) {
       this.keys[KEYS[e.keyCode]] = false;
     }
+  };
+
+  Controls.prototype.onFrame = function() {
+    if (this.keys.right) {
+      this.inputVec.x = 1;
+    } else if (this.keys.left) {
+      this.inputVec.x = -1;
+    } else {
+      this.inputVec.x = 0;
+    }
+
+    this.isJumping = this.keys.space;
   };
 
   // Export singleton.

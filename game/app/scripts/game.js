@@ -1,6 +1,6 @@
 /*global define, alert */
 
-define(['player', 'platform'], function(Player, Platform) {
+define(['controls', 'player', 'platform'], function(Controls, Player, Platform) {
   /**
    * Main game class.
    * @param {Element} el DOM element containig the game.
@@ -83,6 +83,7 @@ define(['player', 'platform'], function(Player, Platform) {
         delta = now - this.lastFrame;
     this.lastFrame = now;
 
+    Controls.onFrame(delta);
     this.player.onFrame(delta);
 
     // Request next frame.
