@@ -26,12 +26,14 @@ define([], function() {
   Controls.prototype.onKeyDown = function(e) {
     if (e.keyCode in KEYS) {
       this.keys[KEYS[e.keyCode]] = true;
+      e.preventDefault();
     }
   };
 
   Controls.prototype.onKeyUp = function(e) {
     if (e.keyCode in KEYS) {
       this.keys[KEYS[e.keyCode]] = false;
+      e.preventDefault();
     }
   };
 
