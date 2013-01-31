@@ -5,7 +5,7 @@ define(['controls'], function(controls) {
   var PLAYER_SPEED = 300;
   var JUMP_VELOCITY = 1000;
   var GRAVITY = 2500;
-  var EDGE_OF_LIFE = 650; // DUM DUM DUM!
+  var EDGE_OF_LIFE = 860; // DUM DUM DUM!
 
   var transform = $.fx.cssPrefix + 'transform';
 
@@ -46,9 +46,6 @@ define(['controls'], function(controls) {
 
     // Update UI.
     this.el.css(transform, 'translate(' + this.pos.x + 'px,' + this.pos.y + 'px)');
-
-    this.el.toggleClass('walking', this.vel.x !== 0);
-    this.el.toggleClass('jumping', this.vel.y < 0);
   };
 
   Player.prototype.checkPlatforms = function(oldY) {
