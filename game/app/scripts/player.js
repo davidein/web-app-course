@@ -6,6 +6,7 @@ define(['controls'], function(controls) {
   var JUMP_VELOCITY = 1000;
   var GRAVITY = 2500;
   var EDGE_OF_LIFE = 860; // DUM DUM DUM!
+  var BOUNDING_BOX_BONUS = 10;
 
   var transform = $.fx.cssPrefix + 'transform';
 
@@ -55,7 +56,7 @@ define(['controls'], function(controls) {
       if (p.rect.y >= oldY && p.rect.y < this.pos.y) {
 
         // Is our X within platform width
-        if (this.pos.x > p.rect.x && this.pos.x < p.rect.right) {
+        if (this.pos.x + BOUNDING_BOX_BONUS > p.rect.x && this.pos.x - BOUNDING_BOX_BONUS < p.rect.right) {
 
           // Collision. Let's stop gravity.
           this.pos.y = p.rect.y;
