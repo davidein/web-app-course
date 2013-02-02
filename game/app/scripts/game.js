@@ -1,6 +1,14 @@
 /*global define, alert, Howl */
 
+<<<<<<< HEAD
 define(['controls', 'player', 'platform'], function(Controls, Player, Platform) {
+=======
+define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
+
+  var VIEWPORT_HEIGHT = 720;
+  var VIEWPORT_WIDTH = 1280;
+
+>>>>>>> game
   /**
    * Main game class.
    * @param {Element} el DOM element containig the game.
@@ -8,9 +16,13 @@ define(['controls', 'player', 'platform'], function(Controls, Player, Platform) 
    */
   var Game = function(el) {
     this.el = el;
+    this.coinsEl = el.find('.coins');
     this.platformsEl = el.find('.platforms');
+    this.scoreEl = el.find('.scoreboard .score .value');
+    this.worldEl = el.find('.world');
 
     this.player = new Player(this.el.find('.player'), this);
+    this.entities = [];
     
     // Cache a bound onFrame since we need it each frame.
     this.onFrame = this.onFrame.bind(this);
@@ -29,23 +41,28 @@ define(['controls', 'player', 'platform'], function(Controls, Player, Platform) 
    * Reset all game state for a new game.
    */
   Game.prototype.reset = function() {
-    // Reset platforms.
-    this.platforms = [];
-    this.createPlatforms();
+    // Reset entities.
+    for (var i = 0, e; e = this.entities[i]; i++) {
+      e.el.remove();
+    }
+    this.entities = [];
 
+    this.createWorld();
+
+    this.coinsCollected = 0;
     this.player.pos = {x: 700, y: 418};
 
     // Start game
     this.unfreezeGame();
   };
 
-  Game.prototype.createPlatforms = function() {
+  Game.prototype.createWorld = function() {
     // ground
     this.addPlatform(new Platform({
       x: 100,
       y: 418,
       width: 800,
-      height: 10
+      height: 20
     }));
 
     // Floating platforms
@@ -53,30 +70,45 @@ define(['controls', 'player', 'platform'], function(Controls, Player, Platform) 
       x: 300,
       y: 258,
       width: 100,
-      height: 10
+      height: 20
     }));
     this.addPlatform(new Platform({
       x: 500,
       y: 288,
       width: 100,
-      height: 10
+      height: 20
     }));
     this.addPlatform(new Platform({
       x: 400,
       y: 158,
       width: 100,
-      height: 10
+      height: 20
     }));
     this.addPlatform(new Platform({
       x: 750,
       y: 188,
       width: 100,
-      height: 10
+      height: 20
+    }));
+
+    this.addCoin(new Coin({
+      x: 770,
+      y: 80
+    }));
+
+    this.addCoin(new Coin({
+      x: 820,
+      y: 80
     }));
   };
 
+  Game.prototype.addCoin = function(coin) {
+    this.entities.push(coin);
+    this.coinsEl.append(coin.el);
+  };
+
   Game.prototype.addPlatform = function(platform) {
-    this.platforms.push(platform);
+    this.entities.push(platform);
     this.platformsEl.append(platform.el);
   };
 
@@ -95,8 +127,25 @@ define(['controls', 'player', 'platform'], function(Controls, Player, Platform) 
     Controls.onFrame(delta);
     this.player.onFrame(delta);
 
+    this.updateViewport();
+
+    // Update entities
+    for (var i = 0, e; e = this.entities[i]; i++) {
+      e.onFrame(delta);
+
+      if (e.dead) {
+        this.entities.splice(i--, 1);
+      }
+    }
+
     // Request next frame.
     requestAnimFrame(this.onFrame);
+  };
+
+  Game.prototype.updateViewport = function() {
+    var x = this.player.pos.x - VIEWPORT_WIDTH / 2;
+    var y = this.player.pos.y - VIEWPORT_HEIGHT / 2;
+    this.worldEl.css('-webkit-transform', 'translate3d(' + (-x) + 'px, ' + (-y) + 'px,0)');
   };
 
   /**
@@ -141,6 +190,29 @@ define(['controls', 'player', 'platform'], function(Controls, Player, Platform) 
       this.lastFrame = +new Date() / 1000;
       requestAnimFrame(this.onFrame);
     }
+  };
+
+  Game.prototype.forEachPlatform = function(fun) {
+    for (var i = 0, e; e = this.entities[i]; i++) {
+      if (e instanceof Platform) {
+        fun(e);
+      }
+    }
+  };
+
+  Game.prototype.forEachCoin = function(fun) {
+    for (var i = 0, e; e = this.entities[i]; i++) {
+      if (e instanceof Coin) {
+        fun(e);
+      }
+    }
+  };
+
+  Game.prototype.hitCoin = function(coin) {
+    coin.hit();
+
+    this.coinsCollected++;
+    this.scoreEl.text(this.coinsCollected);
   };
 
   /**

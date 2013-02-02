@@ -8,6 +8,8 @@ define(['controls'], function(controls) {
   var GRAVITY = 2500;
   var EDGE_OF_LIFE = 860; // DUM DUM DUM!
   var BOUNDING_BOX_BONUS = 10;
+  var COIN_HIT_Y = -50;
+  var COIN_HIT_DIST_SQ = Math.pow(75, 2);
 
   var transform = $.fx.cssPrefix + 'transform';
 
@@ -42,6 +44,7 @@ define(['controls'], function(controls) {
 
     // Check collisions
     this.checkPlatforms(oldY);
+    this.checkCoins();
     this.checkGameover();
 
     // Update UI.
@@ -51,20 +54,36 @@ define(['controls'], function(controls) {
   };
 
   Player.prototype.checkPlatforms = function(oldY) {
-    var platforms = this.game.platforms;
-    for (var i = 0, p; p = platforms[i]; i++) {
+    var self = this;
+    var curY = this.pos.y;
+    var curX = this.pos.x;
+
+    this.game.forEachPlatform(function(p) {
       // Are we crossing Y.
-      if (p.rect.y >= oldY && p.rect.y < this.pos.y) {
+      if (p.rect.y >= oldY && p.rect.y < curY) {
 
         // Is our X within platform width
-        if (this.pos.x + BOUNDING_BOX_BONUS > p.rect.x && this.pos.x - BOUNDING_BOX_BONUS < p.rect.right) {
+        if (curX + BOUNDING_BOX_BONUS > p.rect.x && curX - BOUNDING_BOX_BONUS < p.rect.right) {
 
           // Collision. Let's stop gravity.
-          this.pos.y = p.rect.y;
-          this.vel.y = 0;
+          self.pos.y = p.rect.y;
+          self.vel.y = 0;
         }
       }
-    }
+    });
+  };
+
+  Player.prototype.checkCoins = function() {
+    var game = this.game;
+    var centerX = this.pos.x;
+    var centerY = this.pos.y + COIN_HIT_Y;
+
+    this.game.forEachCoin(function(coin) {
+      var dist = Math.pow(centerX - coin.pos.x, 2) + Math.pow(centerY - coin.pos.y, 2);
+      if (dist < COIN_HIT_DIST_SQ) {
+        game.hitCoin(coin);
+      }
+    });
   };
 
   Player.prototype.checkGameover = function() {
