@@ -1,17 +1,16 @@
 # App Development with HTML5
 
-Welcome guys!
+Welcome guys and gals!
 
-Check out the lectures here:
+Check out the slides here:
 
-http://aranja.github.com/web-app-course/lecture-1/
-http://aranja.github.com/web-app-course/lecture-2/
+* [Lecture 1](http://aranja.github.com/web-app-course/lecture-1/)
+* [Lecture 2](http://aranja.github.com/web-app-course/lecture-2/)
+* [Lecture 3](http://aranja.github.com/web-app-course/lecture-3/)
 
-Then check out the materials inside this repo.
+Then check out some of the [extra materials](https://github.com/aranja/web-app-course/tree/gh-pages/materials).
 
-https://github.com/aranja/web-app-course/tree/gh-pages/materials
+And finally the game being developed in class:
 
-And finally the game being developed in class is here:
-
-* [Try it](http://aranja.github.com/web-app-course/game/dist/)
+* [Try it](http://heima.nilsson.is/shares/web-course/game/)
 * [Code](https://github.com/aranja/web-app-course/tree/gh-pages/game)
