@@ -15,6 +15,8 @@ define([], function() {
    * @constructor
    */
   var Controls = function() {
+    this.inputVec = { x: 0, y: 0 };
+
     this.spacePressed = false;
     this.keys = {};
 
@@ -32,6 +34,16 @@ define([], function() {
   Controls.prototype.onKeyUp = function(e) {
     if (e.keyCode in KEYS) {
       this.keys[KEYS[e.keyCode]] = false;
+    }
+  };
+
+  Controls.prototype.onFrame = function() {
+    if (this.keys.right) {
+      this.inputVec.x = 1;
+    } else if (this.keys.left) {
+      this.inputVec.x = -1;
+    } else {
+      this.inputVec.x = 0;
     }
   };
 

@@ -123,6 +123,7 @@ define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
         delta = now - this.lastFrame;
     this.lastFrame = now;
 
+    controls.onFrame(delta);
     this.player.onFrame(delta);
 
     for (var i = 0, e; e = this.entities[i]; i++) {
