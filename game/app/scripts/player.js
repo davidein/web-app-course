@@ -14,25 +14,19 @@ define(['controls'], function(controls) {
     this.game = game;
     this.pos = { x: 0, y: 0 };
     this.vel = { x: 0, y: 0 };
+
+    controls.bind('jump', this.onJump.bind(this));
+  };
+
+  Player.prototype.onJump = function() {
+    if (this.vel.y === 0) {
+      this.vel.y = -JUMP_VELOCITY;
+    }
   };
 
   Player.prototype.onFrame = function(delta) {
-
     // Player input
-    var input = controls.inputVec;
-    this.vel.x = input.x * PLAYER_SPEED;
-    /*if (controls.keys.right) {
-      this.vel.x = PLAYER_SPEED;
-    } else if (controls.keys.left) {
-      this.vel.x = -PLAYER_SPEED;
-    } else {
-      this.vel.x = 0;
-    }*/
-
-    // Jump
-    if (controls.isJumping && this.vel.y === 0) {
-      this.vel.y = -JUMP_VELOCITY;
-    }
+    this.vel.x = controls.inputVec.x * PLAYER_SPEED;
 
     // Gravity
     this.vel.y += GRAVITY * delta;
