@@ -32,6 +32,17 @@ html {
   margin-top: -16px;
 }
 
+.scoreboard {
+  background: rgba(0,0,0,0.25);
+  width: 200px;
+  text-align: center;
+  color: white;
+  font: bold 30px/50px sans-serif;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
 .player {
   height: 140px;
   left: 0;

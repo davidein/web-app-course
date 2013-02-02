@@ -10,6 +10,7 @@ define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
     this.el = el;
     this.coinsEl = el.find('.coins');
     this.platformsEl = el.find('.platforms');
+    this.scoreEl = el.find('.scoreboard .score .value');
 
     this.player = new Player(this.el.find('.player'), this);
     this.entities = [];
@@ -30,6 +31,7 @@ define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
 
     this.createWorld();
 
+    this.coinsCollected = 0;
     this.player.pos = {x: 700, y: 418};
 
     // Start game
@@ -182,6 +184,7 @@ define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
     coin.hit();
 
     this.coinsCollected++;
+    this.scoreEl.text(this.coinsCollected);
   };
 
   /**
