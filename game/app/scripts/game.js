@@ -1,6 +1,10 @@
 /*global define, alert */
 
 define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
+
+  var VIEWPORT_HEIGHT = 720;
+  var VIEWPORT_WIDTH = 1280;
+
   /**
    * Main game class.
    * @param {Element} el DOM element containig the game.
@@ -11,6 +15,7 @@ define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
     this.coinsEl = el.find('.coins');
     this.platformsEl = el.find('.platforms');
     this.scoreEl = el.find('.scoreboard .score .value');
+    this.worldEl = el.find('.world');
 
     this.player = new Player(this.el.find('.player'), this);
     this.entities = [];
@@ -108,6 +113,8 @@ define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
 
     this.player.onFrame(delta);
 
+    this.updateViewport();
+
     // Update entities
     for (var i = 0, e; e = this.entities[i]; i++) {
       e.onFrame(delta);
@@ -119,6 +126,12 @@ define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
 
     // Request next frame.
     requestAnimFrame(this.onFrame);
+  };
+
+  Game.prototype.updateViewport = function() {
+    var x = this.player.pos.x - VIEWPORT_WIDTH / 2;
+    var y = this.player.pos.y - VIEWPORT_HEIGHT / 2;
+    this.worldEl.css('-webkit-transform', 'translate3d(' + (-x) + 'px, ' + (-y) + 'px,0)');
   };
 
   /**
