@@ -1,6 +1,6 @@
-/*global define, alert */
+/*global define, alert, Howl */
 
-define(['player', 'platform'], function(Player, Platform) {
+define(['controls', 'player', 'platform'], function(Controls, Player, Platform) {
   /**
    * Main game class.
    * @param {Element} el DOM element containig the game.
@@ -14,6 +14,15 @@ define(['player', 'platform'], function(Player, Platform) {
     
     // Cache a bound onFrame since we need it each frame.
     this.onFrame = this.onFrame.bind(this);
+
+    this.sound = new Howl({
+      urls: ['/sounds/main.mp3', '/sounds/main.ogg'],
+      sprite: {
+        blast: [0, 2000],
+        laser: [3000, 700],
+        winner: [5000, 9000]
+      }
+    });
   };
 
   /**
@@ -83,6 +92,7 @@ define(['player', 'platform'], function(Player, Platform) {
         delta = now - this.lastFrame;
     this.lastFrame = now;
 
+    Controls.onFrame(delta);
     this.player.onFrame(delta);
 
     // Request next frame.
@@ -100,6 +110,7 @@ define(['player', 'platform'], function(Player, Platform) {
    * Stop the game and notify user that he has lost.
    */
   Game.prototype.gameover = function() {
+    this.sound.play('winner');
     alert('You are game over!');
     this.freezeGame();
 

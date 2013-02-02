@@ -1,0 +1,9 @@
+{
+  "name": "howler.js",
+  "version": "0.0.0",
+  "commit": "76979eb374b2d4a280f97358f9c3545261fe314f",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/goldfire/howler.js.git"
+  }
+}
