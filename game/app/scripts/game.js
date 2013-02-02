@@ -44,6 +44,8 @@ define(['controls', 'player', 'platform', 'coin'], function(controls, Player, Pl
     this.entities = [];
     this.createWorld();
     this.player.pos = {x: 700, y: 418};
+
+    // Reset viewport.
     this.viewport = {x: 0, y: 0, width: 910, height:479};
 
     // Coins
@@ -55,7 +57,7 @@ define(['controls', 'player', 'platform', 'coin'], function(controls, Player, Pl
   };
 
   Game.prototype.createWorld = function() {
-    // ground
+    // Ground.
     this.addPlatform(new Platform({
       x: 100,
       y: 418,
@@ -89,11 +91,11 @@ define(['controls', 'player', 'platform', 'coin'], function(controls, Player, Pl
       height: 10
     }));
 
+    // Coins
     this.addCoin(new Coin({
       x: 770,
       y: 80
     }));
-
     this.addCoin(new Coin({
       x: 820,
       y: 80
