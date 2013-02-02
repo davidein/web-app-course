@@ -1,6 +1,12 @@
 /*global define, alert, Howl */
 
 define(['controls', 'player', 'platform', 'coin'], function(controls, Player, Platform, Coin) {
+
+  var transform = $.fx.cssPrefix + 'transform';
+
+  // How far from each edge should the player be.
+  var VIEWPORT_PADDING = 300;
+
   /**
    * Main game class.
    * @param {Element} el DOM element containig the game.
@@ -8,6 +14,7 @@ define(['controls', 'player', 'platform', 'coin'], function(controls, Player, Pl
    */
   var Game = function(el) {
     this.el = el;
+    this.worldEl = el.find('.world');
     this.platformsEl = el.find('.platforms');
     this.coinsEl = el.find('.coins');
     this.scoreEl = el.find('.score .value');
@@ -34,6 +41,7 @@ define(['controls', 'player', 'platform', 'coin'], function(controls, Player, Pl
     // Reset platforms.
     this.entities = [];
     this.createWorld();
+    this.viewport = {x: 0, y: 0, width: 910, height:479};
 
     this.player.pos = {x: 700, y: 418};
     this.collectedCoins = 0;
@@ -143,8 +151,32 @@ define(['controls', 'player', 'platform', 'coin'], function(controls, Player, Pl
       }
     }
 
+    this.updateViewport();
+
     // Request next frame.
     requestAnimFrame(this.onFrame);
+  };
+
+  Game.prototype.updateViewport = function() {
+    // Find min and max X for player in world coordinates.
+    var minX = this.viewport.x + VIEWPORT_PADDING;
+    var maxX = this.viewport.x + this.viewport.width - VIEWPORT_PADDING;
+
+    // Player position
+    var playerX = this.player.pos.x;
+
+    //Update the viewport if needed.
+    if (playerX < minX) {
+      this.viewport.x = playerX - VIEWPORT_PADDING;
+    } else if (playerX > maxX) {
+      this.viewport.x = playerX + VIEWPORT_PADDING - this.viewport.width;
+    }
+
+    // Let's not go outside the level.
+    // TODO: Level end?
+    this.viewport.x = Math.max(0, this.viewport.x);
+    
+    this.worldEl.css(transform, 'translate(' + (-this.viewport.x) + 'px, 0)');
   };
 
   /**

@@ -12,9 +12,15 @@ html {
   top: 50%;
   width: 910px;
   height: 479px;
-  background: url('http://assets.sbnation.com/assets/1608607/Screen_Shot_2012-08-06_at_12.23.43_PM.jpeg') no-repeat;
   margin-left: -455px;
   margin-top: -240px;
+}
+
+.background {
+  background: url('http://assets.sbnation.com/assets/1608607/Screen_Shot_2012-08-06_at_12.23.43_PM.jpeg');
+  position: absolute;
+  height: 479px;
+  width: 3000px;
 }
 
 .coin {
