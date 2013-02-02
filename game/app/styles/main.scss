@@ -17,6 +17,15 @@ html {
   margin-top: -240px;
 }
 
+.coin {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  margin-left: -16px;
+  margin-top: -16px;
+  background: url('images/coin.gif') no-repeat;
+}
+
 .platform {
   background-color: #bada55;
   position: absolute;

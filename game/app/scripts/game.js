@@ -1,6 +1,6 @@
 /*global define, alert */
 
-define(['player', 'platform'], function(Player, Platform) {
+define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
   /**
    * Main game class.
    * @param {Element} el DOM element containig the game.
@@ -9,6 +9,7 @@ define(['player', 'platform'], function(Player, Platform) {
   var Game = function(el) {
     this.el = el;
     this.platformsEl = el.find('.platforms');
+    this.coinsEl = el.find('.coins');
 
     this.player = new Player(this.el.find('.player'), this);
     
@@ -64,11 +65,26 @@ define(['player', 'platform'], function(Player, Platform) {
       width: 100,
       height: 10
     }));
+
+    this.addCoin(new Coin({
+      x: 770,
+      y: 80
+    }));
+
+    this.addCoin(new Coin({
+      x: 820,
+      y: 80
+    }));
   };
 
   Game.prototype.addPlatform = function(platform) {
     this.entities.push(platform);
     this.platformsEl.append(platform.el);
+  };
+
+  Game.prototype.addCoin = function(coin) {
+    this.entities.push(coin);
+    this.coinsEl.append(coin.el);
   };
 
   Game.prototype.forEachPlatform = function(fun) {
