@@ -19,6 +19,7 @@ define(['controls', 'player', 'platform', 'coin'], function(controls, Player, Pl
     this.coinsEl = el.find('.coins');
     this.scoreEl = el.find('.score .value');
 
+    this.entities = [];
     this.player = new Player(this.el.find('.player'), this);
 
     this.sound = new Howl({
@@ -38,12 +39,13 @@ define(['controls', 'player', 'platform', 'coin'], function(controls, Player, Pl
    * Reset all game state for a new game.
    */
   Game.prototype.reset = function() {
-    // Reset platforms.
+    // Reset world.
+    this.entities.forEach(function(e) { e.el.remove(); });
     this.entities = [];
     this.createWorld();
+    this.player.pos = {x: 700, y: 418};
     this.viewport = {x: 0, y: 0, width: 910, height:479};
 
-    this.player.pos = {x: 700, y: 418};
     this.collectedCoins = 0;
 
     // Start game
