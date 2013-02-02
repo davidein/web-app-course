@@ -21,6 +21,7 @@ define(['controls'], function(controls) {
   Player.prototype.onJump = function() {
     if (this.vel.y === 0) {
       this.vel.y = -JUMP_VELOCITY;
+      this.game.sound.play('blast');
     }
   };
 
