@@ -23,7 +23,7 @@ define(['controls', 'player', 'platform', 'coin'], function(controls, Player, Pl
     this.player = new Player(this.el.find('.player'), this);
 
     this.sound = new Howl({
-      urls: ['/sounds/main.mp3', '/sounds/main.ogg'],
+      urls: ['sounds/main.mp3', 'sounds/main.ogg'],
       sprite: {
         blast: [0, 2000],
         laser: [3000, 700],
