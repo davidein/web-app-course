@@ -23,6 +23,15 @@ html {
   @include border-radius(5px);
 }
 
+.coin {
+  position: absolute;
+  background: url('images/coin.gif') no-repeat;
+  width: 32px;
+  height: 32px;
+  margin-left: -16px;
+  margin-top: -16px;
+}
+
 .player {
   height: 140px;
   left: 0;

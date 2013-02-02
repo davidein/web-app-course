@@ -1,6 +1,6 @@
 /*global define, alert */
 
-define(['player', 'platform'], function(Player, Platform) {
+define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
   /**
    * Main game class.
    * @param {Element} el DOM element containig the game.
@@ -8,9 +8,11 @@ define(['player', 'platform'], function(Player, Platform) {
    */
   var Game = function(el) {
     this.el = el;
+    this.coinsEl = el.find('.coins');
     this.platformsEl = el.find('.platforms');
 
     this.player = new Player(this.el.find('.player'), this);
+    this.entities = [];
     
     // Cache a bound onFrame since we need it each frame.
     this.onFrame = this.onFrame.bind(this);
@@ -20,9 +22,13 @@ define(['player', 'platform'], function(Player, Platform) {
    * Reset all game state for a new game.
    */
   Game.prototype.reset = function() {
-    // Reset platforms.
-    this.platforms = [];
-    this.createPlatforms();
+    // Reset entities.
+    for (var i = 0, e; e = this.entities[i]; i++) {
+      e.el.remove();
+    }
+    this.entities = [];
+
+    this.createWorld();
 
     this.player.pos = {x: 700, y: 418};
 
@@ -30,7 +36,7 @@ define(['player', 'platform'], function(Player, Platform) {
     this.unfreezeGame();
   };
 
-  Game.prototype.createPlatforms = function() {
+  Game.prototype.createWorld = function() {
     // ground
     this.addPlatform(new Platform({
       x: 100,
@@ -64,10 +70,25 @@ define(['player', 'platform'], function(Player, Platform) {
       width: 100,
       height: 20
     }));
+
+    this.addCoin(new Coin({
+      x: 770,
+      y: 80
+    }));
+
+    this.addCoin(new Coin({
+      x: 820,
+      y: 80
+    }));
+  };
+
+  Game.prototype.addCoin = function(coin) {
+    this.entities.push(coin);
+    this.coinsEl.append(coin.el);
   };
 
   Game.prototype.addPlatform = function(platform) {
-    this.platforms.push(platform);
+    this.entities.push(platform);
     this.platformsEl.append(platform.el);
   };
 
@@ -84,6 +105,15 @@ define(['player', 'platform'], function(Player, Platform) {
     this.lastFrame = now;
 
     this.player.onFrame(delta);
+
+    // Update entities
+    for (var i = 0, e; e = this.entities[i]; i++) {
+      e.onFrame(delta);
+
+      if (e.dead) {
+        this.entities.splice(i--, 1);
+      }
+    }
 
     // Request next frame.
     requestAnimFrame(this.onFrame);
@@ -130,6 +160,28 @@ define(['player', 'platform'], function(Player, Platform) {
       this.lastFrame = +new Date() / 1000;
       requestAnimFrame(this.onFrame);
     }
+  };
+
+  Game.prototype.forEachPlatform = function(fun) {
+    for (var i = 0, e; e = this.entities[i]; i++) {
+      if (e instanceof Platform) {
+        fun(e);
+      }
+    }
+  };
+
+  Game.prototype.forEachCoin = function(fun) {
+    for (var i = 0, e; e = this.entities[i]; i++) {
+      if (e instanceof Coin) {
+        fun(e);
+      }
+    }
+  };
+
+  Game.prototype.hitCoin = function(coin) {
+    coin.hit();
+
+    this.coinsCollected++;
   };
 
   /**
