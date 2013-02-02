@@ -1,4 +1,4 @@
-/*global define, alert */
+/*global define, alert, Howl */
 
 define(['controls', 'player', 'platform', 'coin'], function(controls, Player, Platform, Coin) {
   /**
@@ -13,6 +13,15 @@ define(['controls', 'player', 'platform', 'coin'], function(controls, Player, Pl
     this.scoreEl = el.find('.score .value');
 
     this.player = new Player(this.el.find('.player'), this);
+
+    this.sound = new Howl({
+      urls: ['/sounds/main.mp3', '/sounds/main.ogg'],
+      sprite: {
+        blast: [0, 2000],
+        laser: [3000, 700],
+        winner: [5000, 9000]
+      }
+    });
     
     // Cache a bound onFrame since we need it each frame.
     this.onFrame = this.onFrame.bind(this);

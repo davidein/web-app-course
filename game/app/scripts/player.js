@@ -24,6 +24,7 @@ define(['controls'], function(controls) {
     // Jump
     if (this.vel.y === 0) {
       this.vel.y = -JUMP_VELOCITY;
+      this.game.sound.play('blast');
     }
   };
 
