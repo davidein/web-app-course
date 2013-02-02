@@ -46,7 +46,9 @@ define(['controls', 'player', 'platform', 'coin'], function(controls, Player, Pl
     this.player.pos = {x: 700, y: 418};
     this.viewport = {x: 0, y: 0, width: 910, height:479};
 
+    // Coins
     this.collectedCoins = 0;
+    this.scoreEl.text(0);
 
     // Start game
     this.unfreezeGame();
