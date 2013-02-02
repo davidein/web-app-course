@@ -1,6 +1,6 @@
 /*global define, alert */
 
-define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
+define(['controls', 'player', 'platform', 'coin'], function(controls, Player, Platform, Coin) {
   /**
    * Main game class.
    * @param {Element} el DOM element containig the game.
