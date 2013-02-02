@@ -6,6 +6,8 @@ define(['controls'], function(controls) {
   var JUMP_VELOCITY = 1000;
   var GRAVITY = 2500;
   var EDGE_OF_LIFE = 650; // DUM DUM DUM!
+  var COIN_HIT_Y = -50;
+  var COIN_HIT_DIST = 60;
 
   var transform = $.fx.cssPrefix + 'transform';
 
@@ -42,6 +44,7 @@ define(['controls'], function(controls) {
 
     // Check collisions
     this.checkPlatforms(oldY);
+    this.checkCoins();
     this.checkGameover();
 
     // Update UI.
@@ -66,6 +69,20 @@ define(['controls'], function(controls) {
           pos.y = p.rect.y;
           vel.y = 0;
         }
+      }
+    });
+  };
+
+  Player.prototype.checkCoins = function() {
+    var centerX = this.pos.x;
+    var centerY = this.pos.y + COIN_HIT_Y;
+    var game = this.game;
+
+    this.game.forEachCoin(function(c) {
+      // dist = sqrt(xd * xd + yd * yd)
+      var dist = Math.sqrt(Math.pow(c.pos.x - centerX, 2) + Math.pow(c.pos.y - centerY, 2));
+      if (dist < COIN_HIT_DIST) {
+        game.hitCoin(c);
       }
     });
   };

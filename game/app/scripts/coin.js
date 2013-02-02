@@ -12,6 +12,11 @@ define(function() {
     });
   };
 
+  Coin.prototype.hit = function() {
+    this.el.remove();
+    this.dead = true;
+  };
+
   Coin.prototype.onFrame = function(delta) {
   };
 

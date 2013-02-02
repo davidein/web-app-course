@@ -26,6 +26,7 @@ define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
     this.createWorld();
 
     this.player.pos = {x: 700, y: 418};
+    this.collectedCoins = 0;
 
     // Start game
     this.unfreezeGame();
@@ -87,9 +88,22 @@ define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
     this.coinsEl.append(coin.el);
   };
 
+  Game.prototype.hitCoin = function(coin) {
+    this.collectedCoins++;
+    coin.hit();
+  };
+
   Game.prototype.forEachPlatform = function(fun) {
     for (var i = 0, e; e = this.entities[i]; i++) {
       if (e instanceof Platform) {
+        fun(e);
+      }
+    }
+  };
+
+  Game.prototype.forEachCoin = function(fun) {
+    for (var i = 0, e; e = this.entities[i]; i++) {
+      if (e instanceof Coin) {
         fun(e);
       }
     }
