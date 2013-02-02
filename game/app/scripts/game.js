@@ -21,8 +21,8 @@ define(['player', 'platform'], function(Player, Platform) {
    */
   Game.prototype.reset = function() {
     // Reset platforms.
-    this.platforms = [];
-    this.createPlatforms();
+    this.entities = [];
+    this.createWorld();
 
     this.player.pos = {x: 700, y: 418};
 
@@ -30,7 +30,7 @@ define(['player', 'platform'], function(Player, Platform) {
     this.unfreezeGame();
   };
 
-  Game.prototype.createPlatforms = function() {
+  Game.prototype.createWorld = function() {
     // ground
     this.addPlatform(new Platform({
       x: 100,
@@ -67,8 +67,16 @@ define(['player', 'platform'], function(Player, Platform) {
   };
 
   Game.prototype.addPlatform = function(platform) {
-    this.platforms.push(platform);
+    this.entities.push(platform);
     this.platformsEl.append(platform.el);
+  };
+
+  Game.prototype.forEachPlatform = function(fun) {
+    for (var i = 0, e; e = this.entities[i]; i++) {
+      if (e instanceof Platform) {
+        fun(e);
+      }
+    }
   };
 
   /**
@@ -84,6 +92,14 @@ define(['player', 'platform'], function(Player, Platform) {
     this.lastFrame = now;
 
     this.player.onFrame(delta);
+
+    for (var i = 0, e; e = this.entities[i]; i++) {
+      e.onFrame(delta);
+
+      if (e.dead) {
+        this.entities.splice(i--, 1);
+      }
+    }
 
     // Request next frame.
     requestAnimFrame(this.onFrame);

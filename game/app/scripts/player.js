@@ -52,20 +52,22 @@ define(['controls'], function(controls) {
   };
 
   Player.prototype.checkPlatforms = function(oldY) {
-    var platforms = this.game.platforms;
-    for (var i = 0, p; p = platforms[i]; i++) {
+    var pos = this.pos;
+    var vel = this.vel;
+
+    this.game.forEachPlatform(function(p) {
       // Are we crossing Y.
-      if (p.rect.y >= oldY && p.rect.y < this.pos.y) {
+      if (p.rect.y >= oldY && p.rect.y < pos.y) {
 
         // Is our X within platform width
-        if (this.pos.x > p.rect.x && this.pos.x < p.rect.right) {
+        if (pos.x > p.rect.x && pos.x < p.rect.right) {
 
           // Collision. Let's stop gravity.
-          this.pos.y = p.rect.y;
-          this.vel.y = 0;
+          pos.y = p.rect.y;
+          vel.y = 0;
         }
       }
-    }
+    });
   };
 
   Player.prototype.checkGameover = function() {
