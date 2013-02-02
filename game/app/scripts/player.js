@@ -17,9 +17,12 @@ define(['controls'], function(controls) {
     this.pos = { x: 0, y: 0 };
     this.vel = { x: 0, y: 0 };
 
+    controls.on('jump', this.onJump.bind(this));
+  };
 
+  Player.prototype.onJump = function() {
     // Jump
-    if (controls.keys.space && this.vel.y === 0) {
+    if (this.vel.y === 0) {
       this.vel.y = -JUMP_VELOCITY;
     }
   };

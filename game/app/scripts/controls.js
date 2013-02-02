@@ -1,4 +1,4 @@
-/*global define, $ */
+/*global define, $, asEvented */
 
 define([], function() {
 
@@ -25,12 +25,20 @@ define([], function() {
     $(window)
       .on('keydown', this.onKeyDown.bind(this))
       .on('keyup', this.onKeyUp.bind(this))
-      .on('deviceorientation', this.onOrientation.bind(this));
+      .on('deviceorientation', this.onOrientation.bind(this))
+      .on('touchstart', this.onTouch.bind(this));
   };
+
+  asEvented.call(Controls.prototype);
 
   Controls.prototype.onKeyDown = function(e) {
     if (e.keyCode in KEYS) {
-      this.keys[KEYS[e.keyCode]] = true;
+      var key = KEYS[e.keyCode];
+      this.keys[key] = true;
+
+      if (key === 'space') {
+        this.trigger('jump');
+      }
     }
   };
 
@@ -38,6 +46,10 @@ define([], function() {
     if (e.keyCode in KEYS) {
       this.keys[KEYS[e.keyCode]] = false;
     }
+  };
+
+  Controls.prototype.onTouch = function(e) {
+    this.trigger('jump');
   };
 
   Controls.prototype.onOrientation = function(e) {
