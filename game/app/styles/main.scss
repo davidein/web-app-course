@@ -26,6 +26,17 @@ html {
   background: url('images/coin.gif') no-repeat;
 }
 
+.scoreboard {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0.45);
+  font: bold 40px/80px sans-serif;
+  width: 200px;
+  text-align: center;
+  color: white;
+}
+
 .platform {
   background-color: #bada55;
   position: absolute;

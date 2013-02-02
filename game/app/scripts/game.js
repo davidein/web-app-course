@@ -10,6 +10,7 @@ define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
     this.el = el;
     this.platformsEl = el.find('.platforms');
     this.coinsEl = el.find('.coins');
+    this.scoreEl = el.find('.score .value');
 
     this.player = new Player(this.el.find('.player'), this);
     
@@ -90,6 +91,7 @@ define(['player', 'platform', 'coin'], function(Player, Platform, Coin) {
 
   Game.prototype.hitCoin = function(coin) {
     this.collectedCoins++;
+    this.scoreEl.text(this.collectedCoins);
     coin.hit();
   };
 
