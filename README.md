@@ -7,6 +7,7 @@ Check out the slides here:
 * [Lecture 1](http://aranja.github.com/web-app-course/lecture-1/)
 * [Lecture 2](http://aranja.github.com/web-app-course/lecture-2/)
 * [Lecture 3](http://aranja.github.com/web-app-course/lecture-3/)
+* [Lecture 4](http://aranja.github.com/web-app-course/lecture-4/)
 
 Then check out some of the [extra materials](https://github.com/aranja/web-app-course/tree/gh-pages/materials).
 

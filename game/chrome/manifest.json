@@ -1,0 +1,14 @@
+{
+  "name": "My Platformer",
+  "description": "A fun platforming experience.",
+  "version": "1.0.0.0",
+  "manifest_version": 2,
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "app": {
+    "launch": {
+      "web_url": "http://heima.nilsson.is/shares/web-course/game/"
+    }
+  }
+}
